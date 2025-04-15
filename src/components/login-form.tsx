@@ -7,6 +7,9 @@ import {useState} from "react";
 import {z} from "zod";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
+import api from "@/lib/api";
+import { useUser } from "@/providers/UserProviders";
+import { IUser } from "@/lib/types";
 
 enum AuthMode {
 	LOGIN,
@@ -14,25 +17,34 @@ enum AuthMode {
 }
 
 const authSchema = z.object({
-  email: z.string().email("Invalid email address"), 
-  password: z.string().min(8, "Password must be at least 8 characters long")
-})
+	email: z.string().email("Invalid email address"),
+	password: z.string().min(8, "Password must be at least 8 characters long"),
+});
 
-type FormData = z.infer<typeof authSchema>
+type FormData = z.infer<typeof authSchema>;
 
 export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
 	const [authMode, setAuthMode] = useState(AuthMode.LOGIN);
+	const {setUser} = useUser();
 
 	function toggleAuthModeChange() {
 		setAuthMode((prev) => (prev == AuthMode.REGISTER ? AuthMode.LOGIN : AuthMode.REGISTER));
 	}
 
-  const {register, handleSubmit, formState: {errors}} = useForm<FormData>({resolver: zodResolver(authSchema)});
+	const {
+		register,
+		handleSubmit,
+		formState: {errors},
+	} = useForm<FormData>({resolver: zodResolver(authSchema)});
 
-  function onSubmit(data: FormData) {
-    console.log("Form Submitted: ", data);
-    //TODO: Handle Register Backend Logic
-  }
+	async function onSubmit(data: FormData) {
+		const response: Axios.AxiosXHR<{user: IUser, token: string}>= await api.post(authMode == AuthMode.REGISTER ? "/register" : "/login", {email: data.email, password: data.password});
+
+		if (authMode === AuthMode.REGISTER ? response.status === 201 : response.status === 200) {
+			setUser(response.data.user, response.data.token);
+			window.location.replace("/dash");
+		}
+	}
 
 	return (
 		<div className={cn("flex flex-col gap-6", className)} {...props}>

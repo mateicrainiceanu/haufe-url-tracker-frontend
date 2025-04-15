@@ -1,9 +1,10 @@
 import React, {ReactNode, createContext, useContext, useState} from "react";
 import { IUser } from "@/lib/types";
+import UserManager from "@/lib/UserManager";
 
 interface IUCtx {
 	user: IUser;
-	setUser: React.Dispatch<React.SetStateAction<IUser | null>>;
+	setUser: (user: IUser, toke: string) => void;
 }
 
 const UserContext = createContext<IUCtx | null>(null);
@@ -15,7 +16,12 @@ export const useUser = () => {
 };
 
 function UserProvider({children}: {children: ReactNode}) {
-	const [user, setUser] = useState<IUser | null>(null);
+	const [user, setUserState] = useState<IUser | null>(null);
+
+	function setUser(userData: IUser | null, token: string) {
+		UserManager.setUserInStorage(userData, token)
+		setUserState(userData);
+	}
 
 	return <UserContext.Provider value={{user, setUser} as IUCtx}>{children}</UserContext.Provider>;
 }

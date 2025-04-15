@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router";
 import Home from '@/pages/home/Home';
-import Auth from "./auth/Auth";
+import Auth from "./pages/auth/Auth";
 
 export default createBrowserRouter([
     {
