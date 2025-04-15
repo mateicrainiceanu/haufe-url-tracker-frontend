@@ -1,4 +1,4 @@
-import React, {ReactNode, createContext, useContext, useState} from "react";
+import React, {ReactNode, createContext, useContext, useEffect, useState} from "react";
 import { IUser } from "@/lib/types";
 import UserManager from "@/lib/UserManager";
 
@@ -17,6 +17,11 @@ export const useUser = () => {
 
 function UserProvider({children}: {children: ReactNode}) {
 	const [user, setUserState] = useState<IUser | null>(null);
+
+	useEffect(() => {
+		const user = UserManager.getUserFromMemory();
+		setUserState(user);
+	} ,[]);
 
 	function setUser(userData: IUser | null, token: string) {
 		UserManager.setUserInStorage(userData, token)
