@@ -49,7 +49,9 @@ export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
 
 		if (authMode === AuthMode.REGISTER ? response.status === 201 : response.status === 200) {
 			setUser(response.data.user, response.data.token);
-			window.location.replace("/dash");
+			const lastPath = localStorage.getItem("lastPath");
+			localStorage.removeItem("lastPath");
+			window.location.replace(lastPath || "/dash");
 		}
 	}
 

@@ -4,13 +4,14 @@ import {
 	NavigationMenuLink,
 	NavigationMenuList,
 } from "@/components/ui/navigation-menu";
-import { useUser } from "@/providers/UserProviders";
+import {useUser} from "@/providers/UserProviders";
+import NavTeamSelector from "./NavTeamSelector";
 
 function Navbar() {
 	const {user} = useUser();
 
 	const navs = [
-		{title: "Home", dest: "/", show: true},
+		{title: "Home", dest: "/", show: user === null},
 		{title: "Login", dest: "/auth", show: user === null},
 		{title: "Dash", dest: "/dash", show: user !== null},
 		{title: "Logout", dest: "/logout", show: user !== null},
@@ -23,15 +24,18 @@ function Navbar() {
 
 				<NavigationMenu>
 					<NavigationMenuList className="flex space-x-4">
-						{navs.filter(item => item.show).map((item, i) => (
-							<NavigationMenuItem key={i}>
-								<NavigationMenuLink
-									href={item.dest}
-									className="text-sm font-medium text-gray-700 hover:text-black transition-colors">
-									{item.title}
-								</NavigationMenuLink>
-							</NavigationMenuItem>
-						))}
+						{user && <NavTeamSelector />}
+						{navs
+							.filter((item) => item.show)
+							.map((item, i) => (
+								<NavigationMenuItem key={i}>
+									<NavigationMenuLink
+										href={item.dest}
+										className="text-sm font-medium text-gray-700 hover:text-black transition-colors">
+										{item.title}
+									</NavigationMenuLink>
+								</NavigationMenuItem>
+							))}
 					</NavigationMenuList>
 				</NavigationMenu>
 			</div>

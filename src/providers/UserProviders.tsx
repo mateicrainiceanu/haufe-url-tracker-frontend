@@ -22,6 +22,11 @@ function UserProvider({children}: {children: ReactNode}) {
 	useEffect(() => {
 		const user = UserManager.getUserFromMemory();
 		setUserState(user);
+
+		if (user === null && window.location.pathname.includes("/dash")) { 
+			localStorage.setItem("lastPath", window.location.pathname);
+			window.location.replace("/auth");
+		}
 	} ,[]);
 
 	function setUser(userData: IUser | null, token: string) {
