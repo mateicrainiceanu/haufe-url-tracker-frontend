@@ -1,15 +1,18 @@
-import React from "react";
 import {
 	NavigationMenu,
 	NavigationMenuItem,
 	NavigationMenuLink,
 	NavigationMenuList,
 } from "@/components/ui/navigation-menu";
+import { useUser } from "@/providers/UserProviders";
 
 function Navbar() {
+	const {user} = useUser();
+
 	const navs = [
-		{title: "Home", dest: "/"},
-		{title: "Login", dest: "/auth"},
+		{title: "Home", dest: "/", show: true},
+		{title: "Login", dest: "/auth", show: user === null},
+		{title: "Dash", dest: "/dash", show: user !== null},
 	];
 
 	return (
@@ -19,7 +22,7 @@ function Navbar() {
 
 				<NavigationMenu>
 					<NavigationMenuList className="flex space-x-4">
-						{navs.map((item, i) => (
+						{navs.filter(item => item.show).map((item, i) => (
 							<NavigationMenuItem key={i}>
 								<NavigationMenuLink
 									href={item.dest}

@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import Home from '@/pages/home/Home';
-import Auth from "./auth/Auth";
+import Auth from "./pages/auth/Auth";
+import Dash from "./pages/dash/Dash";
 
 export default createBrowserRouter([
     {
@@ -12,6 +13,12 @@ export default createBrowserRouter([
                     {index: true, Component: Auth}
                 ]
              },
+             {
+                path: "dash",
+                children: [
+                    {index: true, Component: Dash},
+                ]
+             }
         ],
     },
 ]);
