@@ -1,3 +1,4 @@
+import AlertMsg from "@/components/AlertMsg";
 import api from "@/lib/api"
 
 function Dash() {
@@ -12,6 +13,10 @@ function Dash() {
         <button onClick={handleClick}>
             Click me
         </button>
+        <AlertMsg title="Error" message="error" variant="error"/>
+        <AlertMsg title="Error" message="error" variant="warning"/>
+        <AlertMsg title="Error" message="error" variant="info"/>
+        <AlertMsg title="Error" message="error" variant="success"/>
     </div>
   )
 }
