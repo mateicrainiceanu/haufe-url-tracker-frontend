@@ -8,8 +8,10 @@ import {z} from "zod";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import api from "@/lib/api";
-import { useUser } from "@/providers/UserProviders";
-import { IUser } from "@/lib/types";
+import {useUser} from "@/providers/UserProviders";
+import {IUser} from "@/lib/types";
+import {useAlert} from "@/providers/AlertProvider";
+import {AxiosResponse} from "axios";
 
 enum AuthMode {
 	LOGIN,
@@ -37,8 +39,13 @@ export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
 		formState: {errors},
 	} = useForm<FormData>({resolver: zodResolver(authSchema)});
 
+	const {handleAxiosError} = useAlert();
 	async function onSubmit(data: FormData) {
-		const response: Axios.AxiosXHR<{user: IUser, token: string}>= await api.post(authMode == AuthMode.REGISTER ? "/register" : "/login", {email: data.email, password: data.password});
+		const response: AxiosResponse<{user: IUser; token: string}> | void = await api
+			.post(authMode == AuthMode.REGISTER ? "/register" : "/login", {email: data.email, password: data.password})
+			.catch(handleAxiosError);
+
+		if (!response) return;
 
 		if (authMode === AuthMode.REGISTER ? response.status === 201 : response.status === 200) {
 			setUser(response.data.user, response.data.token);

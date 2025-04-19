@@ -3,15 +3,18 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import routes from "./routes";
 import UserProvider from "./providers/UserProviders";
+import AlertProvider from "./providers/AlertProvider";
 
 function App() {
 	return (
-		<UserProvider>
-			<main className="min-w-vw min-h-svh">
-				<Navbar />
-				<RouterProvider router={routes}></RouterProvider>
-			</main>
-		</UserProvider>
+		<AlertProvider>
+			<UserProvider>
+				<main className="min-w-vw min-h-svh">
+					<Navbar />
+					<RouterProvider router={routes}></RouterProvider>
+				</main>
+			</UserProvider>
+		</AlertProvider>
 	);
 }
 
