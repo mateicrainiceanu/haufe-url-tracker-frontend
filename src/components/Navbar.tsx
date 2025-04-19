@@ -13,6 +13,7 @@ function Navbar() {
 		{title: "Home", dest: "/", show: true},
 		{title: "Login", dest: "/auth", show: user === null},
 		{title: "Dash", dest: "/dash", show: user !== null},
+		{title: "Logout", dest: "/logout", show: user !== null},
 	];
 
 	return (

@@ -1,4 +1,4 @@
-import React, {ReactNode, createContext, useContext, useEffect, useState} from "react";
+import {ReactNode, createContext, useContext, useEffect, useState} from "react";
 import { IUser } from "@/lib/types";
 import UserManager from "@/lib/UserManager";
 
@@ -9,6 +9,7 @@ interface IUCtx {
 
 const UserContext = createContext<IUCtx | null>(null);
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useUser = () => {
 	const ctx = useContext(UserContext);
 	if (!ctx) throw new Error("useUser must be used within a UserProvider");
