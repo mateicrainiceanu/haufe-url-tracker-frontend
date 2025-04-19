@@ -1,5 +1,6 @@
 import {Alert, AlertTitle, AlertDescription} from "./ui/alert";
 import {AlertCircle, CircleCheck, Info, TriangleAlert} from "lucide-react";
+import {motion} from "framer-motion";
 
 function AlertMsg({
 	title,
@@ -11,14 +12,22 @@ function AlertMsg({
 	variant: null | "error" | "warning" | "info" | "success";
 }) {
 	return (
-		<Alert className="absolute right-10 bottom-10 w-2/3 md:w-1/3" variant={variant}>
-			{variant === "error" && <AlertCircle />}
-			{variant === "warning" && <TriangleAlert />}
-			{variant === "info" && <Info />}
-			{variant === "success" && <CircleCheck />}
-			<AlertTitle>{title}</AlertTitle>
-			<AlertDescription>{message}</AlertDescription>
-		</Alert>
+		<motion.div
+			initial={{opacity: 0, y: 50}}
+			animate={{opacity: 1, y: 0}}
+			exit={{opacity: 0, y: 50}}
+			transition={{duration: 0.2}}
+			// className="absolute right-10 bottom-10 w-2/3 md:w-1/3"
+		>
+			<Alert variant={variant}>
+				{variant === "error" && <AlertCircle />}
+				{variant === "warning" && <TriangleAlert />}
+				{variant === "info" && <Info />}
+				{variant === "success" && <CircleCheck />}
+				<AlertTitle>{title}</AlertTitle>
+				<AlertDescription>{message}</AlertDescription>
+			</Alert>
+		</motion.div>
 	);
 }
 

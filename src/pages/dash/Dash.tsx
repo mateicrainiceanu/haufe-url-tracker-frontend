@@ -1,24 +1,17 @@
-import AlertMsg from "@/components/AlertMsg";
-import api from "@/lib/api"
+import {useAlert} from "@/providers/AlertProvider";
 
 function Dash() {
+	const {addAlert} = useAlert();
 
-    async function handleClick(){
-        const response = await api.get("/");
-        console.log(response);
-    }
+	async function handleClick() {
+		addAlert({variant: "success", title: "Success", message: "This is a success message"});
+	}
 
-  return (
-    <div>
-        <button onClick={handleClick}>
-            Click me
-        </button>
-        <AlertMsg title="Error" message="error" variant="error"/>
-        <AlertMsg title="Error" message="error" variant="warning"/>
-        <AlertMsg title="Error" message="error" variant="info"/>
-        <AlertMsg title="Error" message="error" variant="success"/>
-    </div>
-  )
+	return (
+		<div>
+			<button onClick={handleClick}>Click me</button>
+		</div>
+	);
 }
 
-export default Dash
+export default Dash;
