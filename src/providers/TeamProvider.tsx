@@ -2,7 +2,7 @@ import {createContext, useContext, useEffect} from "react";
 import {useUser} from "./UserProviders";
 import {useState} from "react";
 import api from "@/lib/api";
-import { useAlert } from "./AlertProvider";
+import {useAlert} from "./AlertProvider";
 
 interface ITeamUsr {
 	id: string;
@@ -21,6 +21,7 @@ interface ITeamCtx {
 	selectedTeam: ITeam | null;
 	setSelectedTeam: (team: ITeam | null) => void;
 	updateTeams: (teams: Array<ITeam>) => void;
+	fetchTeams: () => void;
 }
 
 const TeamsContext = createContext<ITeamCtx | null>(null);
@@ -33,24 +34,57 @@ export function useTeams() {
 }
 
 function TeamProvider({children}: {children: React.ReactNode}) {
-	const [teams, setTeams] = useState<Array<ITeam>>([]);
-	const [selectedTeam, setSelectedTeam] = useState<ITeam | null>(null);
+	const [teams, setTeams] = useState<Array<ITeam> | null>(null);
+	const [selectedTeam, setSelectedTeamState] = useState<ITeam | null>(null);
 
 	const {user} = useUser();
-    const {handleAxiosError} = useAlert();
+	const {handleAxiosError} = useAlert();
 
-    useEffect(() => {
-        if (user == null) {
-            setTeams([]);
-            setSelectedTeam(null);
-        } else {
+	useEffect(() => {
+		if (user == null) {
+			setTeams(null);
+			setSelectedTeamState(null);
+		} else {
+			if (shouldUpdateTeams()) {
+				fetchTeams();
+			} else {
+				getTeamsFromLocalStorage();
+			}
+		}
+	}, [user]);
 
-			//verify last fetch time
-            api.get("/teams").then(res => {
-                updateTeams(res.data.teams);
-            }).catch(handleAxiosError);
-        }
-    }, [user]);
+	useEffect(initSelectedTeam, [teams]);
+
+	function fetchTeams() {
+		api.get("/teams")
+			.then((res) => {
+				updateTeams(res.data.teams);
+			})
+			.catch(handleAxiosError);
+	}
+
+	function getTeamsFromLocalStorage() {
+		const teams = localStorage.getItem("teams-data");
+		if (teams) {
+			const parsedTeams = JSON.parse(teams);
+			if (parsedTeams) {
+				setTeams(parsedTeams);
+				return parsedTeams;
+			}
+		}
+		fetchTeams();
+	}
+
+	function shouldUpdateTeams() {
+		const lastUpdate = localStorage.getItem("last-teams-update");
+		if (lastUpdate) {
+			const lastUpdateTime = parseInt(lastUpdate);
+			if (new Date(Date.now() - lastUpdateTime).getMinutes() < 5) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 	function updateTeams(teams: Array<ITeam>) {
 		setTeams(teams);
@@ -58,8 +92,26 @@ function TeamProvider({children}: {children: React.ReactNode}) {
 		localStorage.setItem("last-teams-update", Date.now().toString());
 	}
 
+	function initSelectedTeam() {
+		const teamId = localStorage.getItem("selected-team-id");
+		if (teamId && teams) {
+			const selectedTeam = teams.find((team) => team.id === teamId) || null;
+			setSelectedTeamState(selectedTeam);
+		}
+	}
+
+	function setSelectedTeam(team: ITeam | null) {
+		if (team == null) {
+			setSelectedTeamState(null);
+			localStorage.removeItem("selected-team-id");
+		} else {
+			setSelectedTeamState(team);
+			localStorage.setItem("selected-team-id", team.id);
+		}
+	}
+
 	return (
-		<TeamsContext.Provider value={{teams, selectedTeam, setSelectedTeam, updateTeams} as ITeamCtx}>
+		<TeamsContext.Provider value={{teams, selectedTeam, setSelectedTeam, updateTeams, fetchTeams} as ITeamCtx}>
 			{children}
 		</TeamsContext.Provider>
 	);

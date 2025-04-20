@@ -22,12 +22,14 @@ function NavTeamSelector() {
 			</DropdownMenuTrigger>
 			<DropdownMenuContent>
 				<DropdownMenuLabel className="font-bold">Teams</DropdownMenuLabel>
-				<DropdownMenuSeparator />
-				{teams.map((team) => (
-					<DropdownMenuItem key={team.id} onClick={() => setSelectedTeam(team)}>
-						{team.name}
-					</DropdownMenuItem>
-				))}
+				{teams && <>
+					<DropdownMenuSeparator />
+					{teams.map((team) => (
+						<DropdownMenuItem key={team.id} onClick={() => setSelectedTeam(team)}>
+							{team.name}
+						</DropdownMenuItem>
+					))}
+				</>}
 				<DropdownMenuSeparator />
 				<DropdownMenuItem
 					onClick={() => {
