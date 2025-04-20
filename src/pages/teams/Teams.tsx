@@ -1,7 +1,10 @@
+import TeamsDisplay from "@/components/teams/TeamsDisplay"
 
 function Teams() {
   return (
-    <div>Teams</div>
+    <div>
+      <TeamsDisplay />
+    </div>
   )
 }
 

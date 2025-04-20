@@ -9,7 +9,7 @@ interface ITeamUsr {
 	email: string;
 }
 
-interface ITeam {
+export interface ITeam {
 	id: string;
 	name: string;
 	users: Array<ITeamUsr>;
@@ -22,6 +22,8 @@ interface ITeamCtx {
 	setSelectedTeam: (team: ITeam | null) => void;
 	updateTeams: (teams: Array<ITeam>) => void;
 	fetchTeams: () => void;
+	deleteTeam: (teamId: string) => void;
+	updateTeamName: (teamId: string, newName: string) => void;
 }
 
 const TeamsContext = createContext<ITeamCtx | null>(null);
@@ -51,6 +53,7 @@ function TeamProvider({children}: {children: React.ReactNode}) {
 				getTeamsFromLocalStorage();
 			}
 		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [user]);
 
 	useEffect(initSelectedTeam, [teams]);
@@ -110,8 +113,38 @@ function TeamProvider({children}: {children: React.ReactNode}) {
 		}
 	}
 
+	function updateTeamName(teamId: string, newName: string) {
+		api.patch(`/team/${teamId}`, {name: newName})
+			.then((res) => {
+				if (res.status === 200) {
+					const updatedTeams = res.data.teams;
+					updateTeams(updatedTeams);
+				}
+			})
+			.catch(handleAxiosError);
+	}
+
+	function deleteTeam(teamId: string) {
+		api.delete(`/team/${teamId}`)
+			.then((res) => {
+				if (res.status === 204) {
+					const updatedTeams = teams?.filter((team) => team.id !== teamId);
+					updateTeams(updatedTeams || []);
+
+					if (selectedTeam?.id === teamId) {
+						setSelectedTeam(null);
+						localStorage.removeItem("selected-team-id");
+					}
+				}
+			})
+			.catch(handleAxiosError);
+	}
+
 	return (
-		<TeamsContext.Provider value={{teams, selectedTeam, setSelectedTeam, updateTeams, fetchTeams} as ITeamCtx}>
+		<TeamsContext.Provider
+			value={
+				{teams, selectedTeam, setSelectedTeam, updateTeams, fetchTeams, deleteTeam, updateTeamName} as ITeamCtx
+			}>
 			{children}
 		</TeamsContext.Provider>
 	);

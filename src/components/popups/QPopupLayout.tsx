@@ -1,8 +1,6 @@
-import CreateTeamPopup from "./CreateTeamPopup";
 import {motion} from "framer-motion";
-import {PopupType} from "@/providers/PopupProvider";
 
-function Popup({type, close}: {type: PopupType | null; close: () => void}) {
+function QPopupLayout({children}: {children: React.ReactNode}) {
 	return (
 		<motion.div
 			initial={{opacity: 0}}
@@ -16,10 +14,10 @@ function Popup({type, close}: {type: PopupType | null; close: () => void}) {
 				exit={{opacity: 0, y: 50}}
 				transition={{duration: 0.2}}
 				className="w-full max-w-md">
-				{type === PopupType.CREATE_TEAM && <CreateTeamPopup close={close} />}
+				{children}
 			</motion.div>
 		</motion.div>
 	);
 }
 
-export default Popup;
+export default QPopupLayout;

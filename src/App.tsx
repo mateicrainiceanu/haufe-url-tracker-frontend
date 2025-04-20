@@ -15,7 +15,9 @@ function App() {
 					<PopupProvider>
 						<main className="min-w-vw min-h-svh">
 							<Navbar />
-							<RouterProvider router={routes}></RouterProvider>
+							<div className="w-full max-w-5xl px-10 mx-auto mb-2">
+								<RouterProvider router={routes}></RouterProvider>
+							</div>
 						</main>
 					</PopupProvider>
 				</TeamProvider>
