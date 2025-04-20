@@ -57,7 +57,7 @@ function AlertProvider({children}: {children: React.ReactNode}) {
 	return (
 		<AlertContext.Provider value={{addAlert, handleAxiosError} as IAlertCtx}>
 			{children}
-			<div className="fixed right-10 bottom-10 w-2/3 md:w-1/3">
+			<div className="fixed right-10 bottom-10 w-2/3 md:w-1/3 z-50">
 				{alerts.map((alert: IAlert, index) => (
 					<div key={index} className="mb-2">
 						<AlertMsg title={alert.title} message={alert.message} variant={alert.variant} />

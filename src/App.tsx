@@ -5,16 +5,19 @@ import routes from "./routes";
 import UserProvider from "./providers/UserProviders";
 import AlertProvider from "./providers/AlertProvider";
 import TeamProvider from "./providers/TeamProvider";
+import PopupProvider from "./providers/PopupProvider";
 
 function App() {
 	return (
 		<AlertProvider>
 			<UserProvider>
 				<TeamProvider>
-					<main className="min-w-vw min-h-svh">
-						<Navbar />
-						<RouterProvider router={routes}></RouterProvider>
-					</main>
+					<PopupProvider>
+						<main className="min-w-vw min-h-svh">
+							<Navbar />
+							<RouterProvider router={routes}></RouterProvider>
+						</main>
+					</PopupProvider>
 				</TeamProvider>
 			</UserProvider>
 		</AlertProvider>

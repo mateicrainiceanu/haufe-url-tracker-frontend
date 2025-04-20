@@ -6,11 +6,14 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {usePopup, PopupType} from "@/providers/PopupProvider";
 import {useTeams} from "@/providers/TeamProvider";
 import {Ellipsis, PanelBottomClose, Plus} from "lucide-react";
 
 function NavTeamSelector() {
 	const {teams, selectedTeam, setSelectedTeam} = useTeams();
+
+	const {openPopup} = usePopup();
 
 	return (
 		<DropdownMenu>
@@ -26,8 +29,18 @@ function NavTeamSelector() {
 					</DropdownMenuItem>
 				))}
 				<DropdownMenuSeparator />
-				<DropdownMenuItem><Plus /> Create team</DropdownMenuItem>
-				<DropdownMenuItem><Ellipsis /> Teams options</DropdownMenuItem>
+				<DropdownMenuItem
+					onClick={() => {
+						openPopup(PopupType.CREATE_TEAM);
+					}}>
+					<Plus /> Create team
+				</DropdownMenuItem>
+				<DropdownMenuItem
+					onClick={() => {
+						window.location.href = "/dash/teams";
+					}}>
+					<Ellipsis /> Teams options
+				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);

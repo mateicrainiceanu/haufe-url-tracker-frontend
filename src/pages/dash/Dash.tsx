@@ -1,10 +1,10 @@
-import {useAlert} from "@/providers/AlertProvider";
+import {usePopup, PopupType} from "@/providers/PopupProvider";
 
 function Dash() {
-	const {addAlert} = useAlert();
+	const {openPopup} = usePopup();
 
 	async function handleClick() {
-		addAlert({variant: "success", title: "Success", message: "This is a success message"});
+		openPopup(PopupType.CREATE_TEAM);
 	}
 
 	return (

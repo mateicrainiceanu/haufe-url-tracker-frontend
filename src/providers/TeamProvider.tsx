@@ -20,6 +20,7 @@ interface ITeamCtx {
 	teams: Array<ITeam>;
 	selectedTeam: ITeam | null;
 	setSelectedTeam: (team: ITeam | null) => void;
+	updateTeams: (teams: Array<ITeam>) => void;
 }
 
 const TeamsContext = createContext<ITeamCtx | null>(null);
@@ -43,15 +44,22 @@ function TeamProvider({children}: {children: React.ReactNode}) {
             setTeams([]);
             setSelectedTeam(null);
         } else {
+
+			//verify last fetch time
             api.get("/teams").then(res => {
-                setTeams(res.data.teams);
-                console.log(res.data.teams);
+                updateTeams(res.data.teams);
             }).catch(handleAxiosError);
         }
     }, [user]);
 
+	function updateTeams(teams: Array<ITeam>) {
+		setTeams(teams);
+		localStorage.setItem("teams-data", JSON.stringify(teams));
+		localStorage.setItem("last-teams-update", Date.now().toString());
+	}
+
 	return (
-		<TeamsContext.Provider value={{teams, selectedTeam, setSelectedTeam} as ITeamCtx}>
+		<TeamsContext.Provider value={{teams, selectedTeam, setSelectedTeam, updateTeams} as ITeamCtx}>
 			{children}
 		</TeamsContext.Provider>
 	);
