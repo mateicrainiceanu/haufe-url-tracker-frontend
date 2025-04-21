@@ -3,9 +3,9 @@ import {useUser} from "./UserProviders";
 import {useState} from "react";
 import api from "@/lib/api";
 import {useAlert} from "./AlertProvider";
-import { AxiosError } from "axios";
+import {AxiosError} from "axios";
 
-interface ITeamUsr {
+export interface ITeamUsr {
 	id: string;
 	email: string;
 }
@@ -27,6 +27,8 @@ interface ITeamCtx {
 	updateTeamName: (teamId: string, newName: string) => void;
 	getTeamById: (teamId: string) => ITeam | null;
 	fetchTeamById: (teamId: string, errorHandler?: (error: AxiosError) => void) => Promise<ITeam | null>;
+	updateOneLocalTeam: (team: ITeam) => void;
+	removeMemberFromTeam: (teamId: string, userId: string) => void;
 }
 
 const TeamsContext = createContext<ITeamCtx | null>(null);
@@ -56,7 +58,7 @@ function TeamProvider({children}: {children: React.ReactNode}) {
 				getTeamsFromLocalStorage();
 			}
 		}
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [user]);
 
 	useEffect(initSelectedTeam, [teams]);
@@ -158,13 +160,13 @@ function TeamProvider({children}: {children: React.ReactNode}) {
 	async function fetchTeamById(teamId: string, errorHandler?: (error: AxiosError) => void) {
 		try {
 			const response = await api.get(`/team/${teamId}`);
-			
+
 			if (response.data.team && response.status === 200) {
 				const team = response.data.team;
 				if (team) {
 					return team;
 				}
-			};
+			}
 		} catch (error) {
 			if (errorHandler) {
 				errorHandler(error as AxiosError);
@@ -177,17 +179,35 @@ function TeamProvider({children}: {children: React.ReactNode}) {
 
 	function getTeamById(teamId: string) {
 		const team = teams?.find((team) => team.id === teamId);
-		if(team) {
+		if (team) {
 			return team;
 		} else {
 			return null;
 		}
 	}
 
+	function removeMemberFromTeam(teamId: string, userId: string) {
+		api.delete(`/team/${teamId}/user/${userId}`).then((res) => {
+			updateOneLocalTeam(res.data.team);
+		}).catch(handleAxiosError);
+	}
+
 	return (
 		<TeamsContext.Provider
 			value={
-				{teams, selectedTeam, setSelectedTeam, updateTeams, fetchTeams, deleteTeam, updateTeamName, getTeamById, fetchTeamById} as ITeamCtx
+				{
+					teams,
+					selectedTeam,
+					setSelectedTeam,
+					updateTeams,
+					fetchTeams,
+					deleteTeam,
+					updateTeamName,
+					getTeamById,
+					fetchTeamById,
+					updateOneLocalTeam,
+					removeMemberFromTeam
+				} as ITeamCtx
 			}>
 			{children}
 		</TeamsContext.Provider>

@@ -1,3 +1,4 @@
+import TeamPermissions from "@/components/teams/TeamPermissions";
 import {Input} from "@/components/ui/input";
 import {QpopupLevel, QpopupType, usePopup} from "@/providers/PopupProvider";
 import {ITeam, useTeams} from "@/providers/TeamProvider";
@@ -63,6 +64,7 @@ function TeamId() {
 		}
 
 		initTeam(teamId);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [teamId, teams]);
 
 	function toggleEdit() {
@@ -75,13 +77,21 @@ function TeamId() {
 		toggleEdit();
 	}
 
+	if (!team) {
+		return (
+			<div className="flex flex-col gap-4">
+				<h1>Loading...</h1>
+			</div>
+		);
+	}
+
 	return (
 		<div className="flex flex-col gap-4">
 			<div className="flex items-center gap-4">
 				{edit ? (
 					<Input
 						className="max-w-lg"
-						value={team?.name}
+						value={team.name}
 						onChange={(e) => {
 							setTeam((prev) => ({...prev, name: e.target.value} as ITeam));
 						}}
@@ -94,7 +104,8 @@ function TeamId() {
 				</button>
 			</div>
 			<p>Team ID: {team?.id}</p>
-			<p>Team owner: {team?.owner.email}</p>
+			<p>Team owner: {team.owner.email}</p>
+			<TeamPermissions team={team} />
 		</div>
 	);
 }
