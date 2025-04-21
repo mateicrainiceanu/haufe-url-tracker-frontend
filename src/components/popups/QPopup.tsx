@@ -17,6 +17,8 @@ function QPopup({qpopup}: {qpopup: IQpopup}) {
 				return "bg-blue-500";
 			case QpopupLevel.SUCCESS:
 				return "bg-green-500";
+			default:
+				return "";
 		}
 	}
 
@@ -46,7 +48,11 @@ function QPopup({qpopup}: {qpopup: IQpopup}) {
 						</Button>
 					)}
 				</CardContent>
-				{qpopup.level === QpopupLevel.DANGER && <CardFooter className="w-full text-xs text-center text-gray-400">This action can't be undone</CardFooter>}
+				{qpopup.level === QpopupLevel.DANGER && (
+					<CardFooter className="w-full text-xs text-center text-gray-400">
+						This action can't be undone
+					</CardFooter>
+				)}
 			</Card>
 		</QPopupLayout>
 	);

@@ -27,7 +27,9 @@ function TeamRow({team}: {team: ITeam}) {
 	}
 
 	return (
-		<TableRow>
+		<TableRow onClick={() => {
+            window.location.href = `/dash/teams/${team.id}`;
+        }}>
 			<TableCell className="font-light">{team.id.slice(24)}</TableCell>
 			<TableCell className="font-bold">{team.name}</TableCell>
 			<TableCell>{getUserNameFromEmail(team.owner.email)}</TableCell>

@@ -15,7 +15,7 @@ interface IPopupCtx {
 }
 
 export enum QpopupType {
-	CONFIRM,
+	CONFIRM, ERROR
 }
 
 export enum QpopupLevel {
@@ -23,6 +23,7 @@ export enum QpopupLevel {
 	WARN,
 	INFO,
 	SUCCESS,
+	NORMAL,
 }
 
 export enum PopupType {

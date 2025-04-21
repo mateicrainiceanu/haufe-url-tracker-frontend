@@ -4,6 +4,7 @@ import Auth from "./pages/auth/Auth";
 import Dash from "./pages/dash/Dash";
 import Logout from "./pages/logout/Logout";
 import Teams from "./pages/teams/Teams";
+import TeamId from "./pages/teams/TeamId";
 
 export default createBrowserRouter([
     {
@@ -11,16 +12,12 @@ export default createBrowserRouter([
         children: [
             { index: true, Component: Home },
             {
-                path: "auth", children:
-                    [
-                        { index: true, Component: Auth }
-                    ]
+                path: "auth",
+                Component: Auth
             },
             {
                 path: "logout",
-                children: [
-                    { index: true, Component: Logout }
-                ]
+                Component: Logout,
             },
             {
                 path: "dash",
@@ -30,6 +27,7 @@ export default createBrowserRouter([
                         path: "teams",
                         children: [
                             { index: true, Component: Teams },
+                            { path: ":teamId", Component: TeamId }
                         ],
                     }
                 ]

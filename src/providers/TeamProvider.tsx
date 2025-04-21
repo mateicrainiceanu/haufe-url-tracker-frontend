@@ -3,6 +3,7 @@ import {useUser} from "./UserProviders";
 import {useState} from "react";
 import api from "@/lib/api";
 import {useAlert} from "./AlertProvider";
+import { AxiosError } from "axios";
 
 interface ITeamUsr {
 	id: string;
@@ -24,6 +25,8 @@ interface ITeamCtx {
 	fetchTeams: () => void;
 	deleteTeam: (teamId: string) => void;
 	updateTeamName: (teamId: string, newName: string) => void;
+	getTeamById: (teamId: string) => ITeam | null;
+	fetchTeamById: (teamId: string, errorHandler?: (error: AxiosError) => void) => Promise<ITeam | null>;
 }
 
 const TeamsContext = createContext<ITeamCtx | null>(null);
@@ -113,12 +116,24 @@ function TeamProvider({children}: {children: React.ReactNode}) {
 		}
 	}
 
+	function updateOneLocalTeam(team: ITeam) {
+		if (teams) {
+			const updatedTeams = teams.map((t) => {
+				if (t.id === team.id) {
+					return team;
+				}
+				return t;
+			});
+			updateTeams(updatedTeams);
+		}
+	}
+
 	function updateTeamName(teamId: string, newName: string) {
 		api.patch(`/team/${teamId}`, {name: newName})
 			.then((res) => {
 				if (res.status === 200) {
-					const updatedTeams = res.data.teams;
-					updateTeams(updatedTeams);
+					const updatedTeam = res.data.team;
+					updateOneLocalTeam(updatedTeam);
 				}
 			})
 			.catch(handleAxiosError);
@@ -140,10 +155,39 @@ function TeamProvider({children}: {children: React.ReactNode}) {
 			.catch(handleAxiosError);
 	}
 
+	async function fetchTeamById(teamId: string, errorHandler?: (error: AxiosError) => void) {
+		try {
+			const response = await api.get(`/team/${teamId}`);
+			
+			if (response.data.team && response.status === 200) {
+				const team = response.data.team;
+				if (team) {
+					return team;
+				}
+			};
+		} catch (error) {
+			if (errorHandler) {
+				errorHandler(error as AxiosError);
+			} else {
+				handleAxiosError(error as AxiosError);
+			}
+		}
+		return null;
+	}
+
+	function getTeamById(teamId: string) {
+		const team = teams?.find((team) => team.id === teamId);
+		if(team) {
+			return team;
+		} else {
+			return null;
+		}
+	}
+
 	return (
 		<TeamsContext.Provider
 			value={
-				{teams, selectedTeam, setSelectedTeam, updateTeams, fetchTeams, deleteTeam, updateTeamName} as ITeamCtx
+				{teams, selectedTeam, setSelectedTeam, updateTeams, fetchTeams, deleteTeam, updateTeamName, getTeamById, fetchTeamById} as ITeamCtx
 			}>
 			{children}
 		</TeamsContext.Provider>
