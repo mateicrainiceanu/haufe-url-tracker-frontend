@@ -6,9 +6,12 @@ import {
 } from "@/components/ui/navigation-menu";
 import {useUser} from "@/providers/UserProviders";
 import NavTeamSelector from "./NavTeamSelector";
+import {SidebarTrigger, useSidebar} from "./ui/sidebar";
+import {motion} from "framer-motion";
 
 function Navbar() {
 	const {user} = useUser();
+	const {open} = useSidebar();
 
 	const navs = [
 		{title: "Home", dest: "/", show: user === null},
@@ -25,31 +28,41 @@ function Navbar() {
 			document.querySelector("nav")?.classList.remove("sm-shadow");
 		}
 	};
+	if (!open)
+		return (
+			<motion.div
+				initial={{opacity: 0, y: -100}}
+				animate={{opacity: 1, y: 0}}
+				exit={{opacity: 0, y: -100}}
+				transition={{duration: 0.2}}>
+				<nav className="w-full px-10 py-6 my-3 sticky top-0 bg-white m-1 z-49 transition-shadow duration-200">
+					<div className="max-w-5xl mx-auto flex items-center justify-between">
+						<div className="flex gap-4 items-center">
+							{user !== null && <SidebarTrigger className="text-2xl" />}
+							<div className="text-xl font-semibold">url.io</div>
+						</div>
 
-	return (
-		<nav className="w-full px-10 py-6 my-3 sticky top-0 bg-white m-1 z-49 transition-shadow duration-200">
-			<div className="max-w-5xl mx-auto flex items-center justify-between">
-				<div className="text-xl font-semibold">url.io</div>
-
-				<NavigationMenu className="">
-					<NavigationMenuList className="flex space-x-4">
-						{user && <NavTeamSelector />}
-						{navs
-							.filter((item) => item.show)
-							.map((item, i) => (
-								<NavigationMenuItem key={i}>
-									<NavigationMenuLink
-										href={item.dest}
-										className="text-sm font-medium text-gray-700 hover:text-black transition-colors">
-										{item.title}
-									</NavigationMenuLink>
-								</NavigationMenuItem>
-							))}
-					</NavigationMenuList>
-				</NavigationMenu>
-			</div>
-		</nav>
-	);
+						<NavigationMenu className="">
+							<NavigationMenuList className="flex space-x-4">
+								{user && <NavTeamSelector />}
+								{navs
+									.filter((item) => item.show)
+									.map((item, i) => (
+										<NavigationMenuItem key={i}>
+											<NavigationMenuLink
+												href={item.dest}
+												className="text-sm font-medium text-gray-700 hover:text-black transition-colors">
+												{item.title}
+											</NavigationMenuLink>
+										</NavigationMenuItem>
+									))}
+							</NavigationMenuList>
+						</NavigationMenu>
+					</div>
+				</nav>
+			</motion.div>
+		);
+	else return <></>;
 }
 
 export default Navbar;

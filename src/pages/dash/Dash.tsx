@@ -1,14 +1,7 @@
 
-function Dash() {
-	async function handleClick() {
-		
-	}
 
-	return (
-		<div>
-			<button onClick={handleClick}>Click me</button>
-		</div>
-	);
+function Dash() {
+	return (<></>);
 }
 
 export default Dash;

@@ -18,18 +18,20 @@ function NavTeamSelector() {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger className="p-2 border-2 rounded-md border-gray-200 hover:border-gray-300 transition-colors focus:outline-none flex gap-4">
-				{selectedTeam ? selectedTeam.name : "Select Team"} <PanelBottomClose color="lightgray" />
+				{selectedTeam ? selectedTeam.name : "Select Team"} <PanelBottomClose className="ms-auto" color="lightgray" />
 			</DropdownMenuTrigger>
 			<DropdownMenuContent>
 				<DropdownMenuLabel className="font-bold">Teams</DropdownMenuLabel>
-				{teams && <>
-					<DropdownMenuSeparator />
-					{teams.map((team) => (
-						<DropdownMenuItem key={team.id} onClick={() => setSelectedTeam(team)}>
-							{team.name}
-						</DropdownMenuItem>
-					))}
-				</>}
+				{teams && (
+					<>
+						<DropdownMenuSeparator />
+						{teams.map((team) => (
+							<DropdownMenuItem key={team.id} onClick={() => setSelectedTeam(team)}>
+								{team.name}
+							</DropdownMenuItem>
+						))}
+					</>
+				)}
 				<DropdownMenuSeparator />
 				<DropdownMenuItem
 					onClick={() => {

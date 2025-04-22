@@ -8,7 +8,8 @@ function TeamRow({team}: {team: ITeam}) {
 	const {deleteTeam} = useTeams();
 	const {openQpopup} = usePopup();
 
-	function handleDelete() {
+	function handleDelete(e: React.MouseEvent) {
+		e.stopPropagation();
 		openQpopup({
 			title: "Confirm delete",
 			message: "If you delete this itemm, it will be gone forever.",
@@ -27,9 +28,10 @@ function TeamRow({team}: {team: ITeam}) {
 	}
 
 	return (
-		<TableRow onClick={() => {
-            window.location.href = `/dash/teams/${team.id}`;
-        }}>
+		<TableRow
+			onClick={() => {
+				window.location.href = `/dash/teams/${team.id}`;
+			}}>
 			<TableCell className="font-light">{team.id.slice(24)}</TableCell>
 			<TableCell className="font-bold">{team.name}</TableCell>
 			<TableCell>{getUserNameFromEmail(team.owner.email)}</TableCell>
