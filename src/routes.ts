@@ -5,6 +5,8 @@ import Dash from "./pages/dash/Dash";
 import Logout from "./pages/logout/Logout";
 import Teams from "./pages/teams/Teams";
 import TeamId from "./pages/teams/TeamId";
+import NotFound from "./pages/NotFound";
+import Trackers from "./pages/trackers/Trackers";
 
 export default createBrowserRouter([
     {
@@ -29,8 +31,18 @@ export default createBrowserRouter([
                             { index: true, Component: Teams },
                             { path: ":teamId", Component: TeamId }
                         ],
-                    }
+                    },
+                    {
+                        path: "trackers",
+                        children: [
+                            { index: true, Component: Trackers },
+                        ]
+                    },
                 ]
+            },
+            {
+                path: "*",
+                Component: NotFound
             }
         ],
     },
