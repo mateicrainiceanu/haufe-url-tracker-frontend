@@ -51,13 +51,79 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --background: oklch(0.145 0 0);
+    /* Dark background */
+    --foreground: oklch(0.985 0 0);
+    /* Light text */
+    --card: oklch(0.205 0 0);
+    /* Dark card background */
+    --card-foreground: oklch(0.985 0 0);
+    /* Light text on card */
+    --popover: oklch(0.205 0 0);
+    /* Dark popover background */
+    --popover-foreground: oklch(0.985 0 0);
+    /* Light text on popover */
+    --primary: oklch(0.922 0 0);
+    /* Dark primary color */
+    --primary-foreground: oklch(0.205 0 0);
+    /* Light text on primary */
+    --secondary: oklch(0.269 0 0);
+    /* Dark secondary color */
+    --secondary-foreground: oklch(0.985 0 0);
+    /* Light text on secondary */
+    --muted: oklch(0.269 0 0);
+    /* Muted colors */
+    --muted-foreground: oklch(0.708 0 0);
+    /* Muted text */
+    --accent: oklch(0.269 0 0);
+    /* Accent color */
+    --accent-foreground: oklch(0.985 0 0);
+    /* Light text on accent */
+    --destructive: oklch(0.704 0.191 22.216);
+    /* Destructive color */
+    --border: oklch(1 0 0 / 10%);
+    /* Border color */
+    --input: oklch(1 0 0 / 15%);
+    /* Input background */
+    --ring: oklch(0.556 0 0);
+    /* Ring color */
+    --chart-1: oklch(0.488 0.243 264.376);
+    /* Chart color 1 */
+    --chart-2: oklch(0.696 0.17 162.48);
+    /* Chart color 2 */
+    --chart-3: oklch(0.769 0.188 70.08);
+    /* Chart color 3 */
+    --chart-4: oklch(0.627 0.265 303.9);
+    /* Chart color 4 */
+    --chart-5: oklch(0.645 0.246 16.439);
+    /* Chart color 5 */
+    --sidebar: oklch(0.205 0 0);
+    /* Dark sidebar */
+    --sidebar-foreground: oklch(0.985 0 0);
+    /* Light text in sidebar */
+    --sidebar-primary: oklch(0.488 0.243 264.376);
+    /* Sidebar primary color */
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    /* Light text on sidebar */
+    --sidebar-accent: oklch(0.269 0 0);
+    /* Sidebar accent */
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    /* Sidebar accent text */
+    --sidebar-border: oklch(1 0 0 / 10%);
+    /* Sidebar border */
+    --sidebar-ring: oklch(0.556 0 0);
+    /* Sidebar ring */
+  }
+
+}
+
 a {
   font-weight: 500;
-  color: #646cff;
   text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
 }
 
 body {

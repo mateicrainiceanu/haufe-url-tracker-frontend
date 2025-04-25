@@ -28,14 +28,15 @@ function Navbar() {
 			document.querySelector("nav")?.classList.remove("sm-shadow");
 		}
 	};
-	if (!open)
+	if (!open || user === null)
 		return (
 			<motion.div
+				className="sticky top-0 bg-background/90 backdrop-blur-sm border-b border-muted shadow-sm z-50"
 				initial={{opacity: 0, y: -100}}
 				animate={{opacity: 1, y: 0}}
 				exit={{opacity: 0, y: -100}}
 				transition={{duration: 0.2}}>
-				<nav className="w-full px-10 py-6 my-3 sticky top-0 bg-white m-1 z-49 transition-shadow duration-200">
+				<nav className="w-full px-10 py-6 my-3  m-1 z-49 transition-shadow duration-200">
 					<div className="max-w-5xl mx-auto flex items-center justify-between">
 						<div className="flex gap-4 items-center">
 							{user !== null && <SidebarTrigger className="text-2xl" />}
@@ -51,7 +52,7 @@ function Navbar() {
 										<NavigationMenuItem key={i}>
 											<NavigationMenuLink
 												href={item.dest}
-												className="text-sm font-medium text-gray-700 hover:text-black transition-colors">
+												className="text-sm font-medium text-foreground transition-colors">
 												{item.title}
 											</NavigationMenuLink>
 										</NavigationMenuItem>

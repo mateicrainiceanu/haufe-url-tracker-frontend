@@ -44,8 +44,8 @@ export function AppSidebar() {
 										<SidebarMenuItem key={item.title}>
 											<SidebarMenuButton asChild>
 												<a href={item.dest}>
-													<item.icon />
-													<span>{item.title}</span>
+													<item.icon className="text-sidebar-foreground" />
+													<span className="text-sidebar-foreground">{item.title}</span>
 												</a>
 											</SidebarMenuButton>
 										</SidebarMenuItem>
@@ -59,9 +59,9 @@ export function AppSidebar() {
 							<SidebarMenu>
 								<SidebarMenuItem>
 									<SidebarMenuButton asChild>
-										<a href={"trackers"}>
-											<LocateFixed />
-											<span>Trackers</span>
+										<a href={"/dash/trackers"}>
+											<LocateFixed className="text-sidebar-foreground" />
+											<span className="text-sidebar-foreground">Trackers</span>
 										</a>
 									</SidebarMenuButton>
 								</SidebarMenuItem>
