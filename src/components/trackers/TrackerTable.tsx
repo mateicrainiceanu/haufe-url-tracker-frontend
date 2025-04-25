@@ -3,14 +3,19 @@ import {Card, CardHeader, CardTitle} from "../ui/card";
 import {Table, TableBody, TableHead, TableHeader, TableRow} from "../ui/table";
 import TrackerRow from "./TrackerRow";
 import {Button} from "../ui/button";
-import {RefreshCcw} from "lucide-react";
+import {Plus, RefreshCcw} from "lucide-react";
+import {PopupType, usePopup} from "@/providers/PopupProvider";
 
 function TrackerTable() {
 	const {trackers, forceRefreshTrackers} = useTracker();
-	console.log("trackers", trackers);
+	const {openPopup} = usePopup();
 
 	if (!trackers) {
 		return <>Loading... Please make sure a team is selected.</>;
+	}
+
+	function handleAddTracker() {
+		openPopup(PopupType.CREATE_TRACKER);
 	}
 
 	return (
@@ -19,6 +24,9 @@ function TrackerTable() {
 				<CardTitle>Trackers</CardTitle>
 				<Button className="ms-auto" variant="outline" onClick={forceRefreshTrackers}>
 					<RefreshCcw />
+				</Button>
+				<Button variant="outline" onClick={handleAddTracker}>
+					<Plus />
 				</Button>
 			</CardHeader>
 			<Table>

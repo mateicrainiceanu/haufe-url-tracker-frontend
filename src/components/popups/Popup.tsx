@@ -1,6 +1,7 @@
 import CreateTeamPopup from "./CreateTeamPopup";
 import {motion} from "framer-motion";
 import {PopupType} from "@/providers/PopupProvider";
+import CreateTrackerPopup from "./CreateTrackerPopup";
 
 function Popup({type, close}: {type: PopupType | null; close: () => void}) {
 	return (
@@ -17,6 +18,7 @@ function Popup({type, close}: {type: PopupType | null; close: () => void}) {
 				transition={{duration: 0.2}}
 				className="w-full max-w-md">
 				{type === PopupType.CREATE_TEAM && <CreateTeamPopup close={close} />}
+				{type === PopupType.CREATE_TRACKER && <CreateTrackerPopup close={close} />}
 			</motion.div>
 		</motion.div>
 	);

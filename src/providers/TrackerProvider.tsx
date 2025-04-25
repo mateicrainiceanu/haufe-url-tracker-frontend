@@ -23,6 +23,10 @@ export interface ITrackerCtx {
 	setTrackers: (trackers: ITracker[] | null) => void;
 	forceRefreshTrackers: () => void;
 	deleteTracker: (trackerId: string) => void;
+	createTracker: (
+		data: {url: string; keyword?: string; name?: string; description?: string},
+		onComplete?: () => void
+	) => void;
 }
 
 const TrackerContext = createContext<ITrackerCtx | null>(null);
@@ -49,7 +53,7 @@ function TrackerProvider({children}: {children: React.ReactNode}) {
 		if (!selectedTeam) return;
 		api.get("/tracker", {params: {teamId: selectedTeam?.id}})
 			.then((res) => {
-				setTrackers(res.data.trackers);
+				setTrackers(res.data.trackers.reverse());
 				onComplete?.();
 			})
 			.catch(handleAxiosError);
@@ -76,6 +80,26 @@ function TrackerProvider({children}: {children: React.ReactNode}) {
 				message: "Trackers refreshed successfully",
 			});
 		});
+	}
+
+	function createTracker(
+		data: {url: string; keyword?: string; name?: string; description?: string},
+		onComplete?: () => void
+	) {
+		if (!selectedTeam) return;
+
+		api.post("/tracker", {...data, teamId: selectedTeam.id})
+			.then((res) => {
+				const {tracker} = res.data;
+				setTrackers([tracker, ...(trackers || [])]);
+				addAlert({
+					variant: "success",
+					title: "Created successfully",
+					message: "Tracker created successfully",
+				});
+				onComplete?.();
+			})
+			.catch(handleAxiosError);
 	}
 
 	function shouldUpdateTrackers() {
@@ -130,7 +154,8 @@ function TrackerProvider({children}: {children: React.ReactNode}) {
 	}
 
 	return (
-		<TrackerContext.Provider value={{trackers, setTrackers, forceRefreshTrackers, deleteTracker} as ITrackerCtx}>
+		<TrackerContext.Provider
+			value={{trackers, setTrackers, forceRefreshTrackers, deleteTracker, createTracker} as ITrackerCtx}>
 			{children}
 		</TrackerContext.Provider>
 	);

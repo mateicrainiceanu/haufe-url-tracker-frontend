@@ -29,6 +29,7 @@ export enum QpopupLevel {
 export enum PopupType {
 	INFO,
 	CREATE_TEAM,
+	CREATE_TRACKER,
 }
 
 interface IQpopupAction {

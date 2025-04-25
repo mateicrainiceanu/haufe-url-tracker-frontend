@@ -43,9 +43,6 @@ function CreateTeamPopup({close}: {close: () => void}) {
         });
 	}
 
-
-
-
 	return (
 		<Card className="w-full max-w-md relative">
 			<CardHeader>
