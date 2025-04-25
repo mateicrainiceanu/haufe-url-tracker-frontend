@@ -49,14 +49,14 @@ function TrackerProvider({children}: {children: React.ReactNode}) {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [selectedTeam]);
 
-	function fetchTrackers(onComplete?: () => void) {
+	async function fetchTrackers(onComplete?: () => void) {
 		if (!selectedTeam) return;
-		api.get("/tracker", {params: {teamId: selectedTeam?.id}})
+		await api.get("/tracker", {params: {teamId: selectedTeam?.id}})
 			.then((res) => {
 				setTrackers(res.data.trackers.reverse());
-				onComplete?.();
 			})
 			.catch(handleAxiosError);
+		onComplete?.();
 	}
 
 	function initTrackers() {
