@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/sidebar";
 import NavTeamSelector from "@/components/NavTeamSelector";
 import {useUser} from "@/providers/UserProviders";
-import {Home, LayoutDashboard, LogIn, LogOut, User, Users} from "lucide-react";
+import {Home, LayoutDashboard, LocateFixed, LogIn, LogOut, User, Users} from "lucide-react";
 import {Button} from "./ui/button";
 
 export function AppSidebar() {
@@ -54,6 +54,18 @@ export function AppSidebar() {
 						</SidebarGroup>
 						<SidebarGroup className="px-3">
 							<NavTeamSelector></NavTeamSelector>
+						</SidebarGroup>
+						<SidebarGroup>
+							<SidebarMenu>
+								<SidebarMenuItem>
+									<SidebarMenuButton asChild>
+										<a href={"trackers"}>
+											<LocateFixed />
+											<span>Trackers</span>
+										</a>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+							</SidebarMenu>
 						</SidebarGroup>
 					</SidebarContent>
 					<SidebarFooter>
