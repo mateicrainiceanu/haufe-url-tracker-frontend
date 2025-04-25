@@ -62,7 +62,14 @@ function Navbar() {
 				</nav>
 			</motion.div>
 		);
-	else return <></>;
+	else
+		return (
+			<>
+				<nav className="md:hidden">
+					<SidebarTrigger className="m-3"/>
+				</nav>
+			</>
+		);
 }
 
 export default Navbar;
