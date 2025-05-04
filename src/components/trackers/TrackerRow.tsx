@@ -1,7 +1,7 @@
 import {ITracker, useTracker} from "@/providers/TrackerProvider";
 import {TableHead, TableRow} from "../ui/table";
 import {Button} from "../ui/button";
-import {Link, Trash} from "lucide-react";
+import {Link, Pencil, Trash} from "lucide-react";
 import {QpopupLevel, QpopupType, usePopup} from "@/providers/PopupProvider";
 import {useAlert} from "@/providers/AlertProvider";
 import {apiBase} from "@/lib/utils";
@@ -42,11 +42,20 @@ function TrackerRow({tracker}: {tracker: ITracker}) {
 	}
 
 	return (
-		<TableRow>
+		<TableRow
+			onClick={() => {
+				window.open("/dash/trackers/" + tracker.id, "_blank");
+			}}>
 			{/* <TableHead>{tracker.id.slice(24)}</TableHead> */}
 			<TableHead className="font-bold">{tracker.name}</TableHead>
 			<TableHead>{tracker.redirect.url}</TableHead>
 			<TableHead className="text-right">
+				<Button onClick={e => {
+					e.stopPropagation();
+					//TODO: open edit tracker popup
+				}} variant="outline">
+					<Pencil size={20} />
+				</Button>
 				<Button variant="outline" onClick={handleCopyLink}>
 					<Link size={20} />
 				</Button>

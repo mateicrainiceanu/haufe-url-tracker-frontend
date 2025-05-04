@@ -9,6 +9,7 @@ import PopupProvider from "./providers/PopupProvider";
 import {SidebarProvider} from "./components/ui/sidebar";
 import {AppSidebar} from "./components/AppSidebar";
 import TrackerProvider from "./providers/TrackerProvider";
+import AccessLogsProvider from "./providers/AccessLogsProvider";
 
 function App() {
 	return (
@@ -17,15 +18,17 @@ function App() {
 				<UserProvider>
 					<TeamProvider>
 						<TrackerProvider>
-							<PopupProvider>
-								<AppSidebar />
-								<main className=" w-full min-h-svh">
-									<Navbar />
-									<div className="w-full max-w-5xl px-10 my-10 mx-auto mb-2">
-										<RouterProvider router={routes}></RouterProvider>
-									</div>
-								</main>
-							</PopupProvider>
+							<AccessLogsProvider>
+								<PopupProvider>
+									<AppSidebar />
+									<main className=" w-full min-h-svh">
+										<Navbar />
+										<div className="w-full max-w-5xl px-10 my-10 mx-auto mb-2">
+											<RouterProvider router={routes}></RouterProvider>
+										</div>
+									</main>
+								</PopupProvider>
+							</AccessLogsProvider>
 						</TrackerProvider>
 					</TeamProvider>
 				</UserProvider>

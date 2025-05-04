@@ -7,6 +7,7 @@ import Teams from "./pages/teams/Teams";
 import TeamId from "./pages/teams/TeamId";
 import NotFound from "./pages/NotFound";
 import Trackers from "./pages/trackers/Trackers";
+import TrackerView from "./pages/trackers/id/TrackerView";
 
 export default createBrowserRouter([
     {
@@ -36,6 +37,10 @@ export default createBrowserRouter([
                         path: "trackers",
                         children: [
                             { index: true, Component: Trackers },
+                            { 
+                                path: ":trackerId",
+                                Component: TrackerView,
+                            }
                         ]
                     },
                 ]
