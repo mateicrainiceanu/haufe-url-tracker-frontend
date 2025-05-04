@@ -1,4 +1,5 @@
 import AccessLogsTable from "@/components/access-logs/AccessLogsTable";
+import DonoughtLocationChart from "@/components/access-logs/charts/DonoughtLocationChart";
 import {useAccessLogs} from "@/providers/AccessLogsProvider";
 import {useEffect} from "react";
 import {useParams} from "react-router";
@@ -12,12 +13,16 @@ function TrackerView() {
 		if (trackerId) {
 			fetchAccessLogs(trackerId!);
 		} else {
-            alert("Tracker ID is not provided");
-        }
+			alert("Tracker ID is not provided");
+		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [trackerId]);
 
 	return (
 		<>
+			<div className="flex flex-col items-center gap-4 my-4">
+				<DonoughtLocationChart />
+			</div>
 			<AccessLogsTable id={trackerId!} />
 		</>
 	);
