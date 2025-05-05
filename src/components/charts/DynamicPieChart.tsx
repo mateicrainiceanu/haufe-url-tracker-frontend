@@ -40,11 +40,11 @@ export function DynamicPieChart({
 	}));
 
 	return (
-		<Card className="flex flex-col">
+		<Card className="flex flex-col w-full">
 			<CardHeader className="items-center pb-0">
 				<CardTitle>{title}</CardTitle>
 			</CardHeader>
-			{enhancedData.length > 0 && (
+			{enhancedData.length > 0 ? (
 				<CardContent className="flex-1 pb-0">
 					<ChartContainer
 						config={config}
@@ -88,7 +88,7 @@ export function DynamicPieChart({
 						</PieChart>
 					</ChartContainer>
 				</CardContent>
-			)}
+			): <span className="text-center font-light">No data yet</span>}
 			{/* <CardFooter className="flex-col gap-2 text-sm">
 				<div className="flex items-center gap-2 font-medium leading-none">
 					Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
