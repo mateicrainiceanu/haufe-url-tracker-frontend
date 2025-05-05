@@ -39,9 +39,6 @@ export function DynamicPieChart({
 				: "hsl(var(--muted))",
 	}));
 
-	console.log("enhancedData", enhancedData);
-	console.log("config", config);
-
 	return (
 		<Card className="flex flex-col">
 			<CardHeader className="items-center pb-0">

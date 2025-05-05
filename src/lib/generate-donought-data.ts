@@ -25,7 +25,5 @@ export function generateDonoughtData(data: never[], dataKey: string) {
         }
     })
 
-    console.log("arr", arr);
-    console.log("config", config);
     return { arr, config };
 }

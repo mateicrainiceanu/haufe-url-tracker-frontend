@@ -14,8 +14,6 @@ function DonoughtLocationChart() {
 		const chartData = generateDonoughtData(accessLogs as never[], "country");
 		setData(chartData.arr as never[]);
 		setConfig(chartData.config);
-        console.log(chartData.arr);
-        console.log(chartData.config);
 	}, [accessLogs]);
 
     
