@@ -27,6 +27,7 @@ export interface ITrackerCtx {
 		data: {url: string; keyword?: string; name?: string; description?: string},
 		onComplete?: () => void
 	) => void;
+	updateTracker: (trackerId: string, tData: ITracker) => void;
 }
 
 const TrackerContext = createContext<ITrackerCtx | null>(null);
@@ -72,6 +73,23 @@ function TrackerProvider({children}: {children: React.ReactNode}) {
 		}
 	}
 
+	function updateLocalTracker (tracker: ITracker) {
+		const index = trackers?.findIndex((t) => t.id === tracker.id);
+		if (!index || trackers == null) {
+			fetchTrackers();
+			return;
+		}
+		const updatedTrackers = [...trackers];
+		updatedTrackers[index] = tracker;
+		setTrackers(updatedTrackers);
+	}
+
+	async function updateTracker(trackerId: string, tData: ITracker) {
+		api.put(`/tracker/${trackerId}`, {name: tData.name, description: tData.description}).then((res) => {
+			updateLocalTracker(res.data.tracker);
+		}).catch(handleAxiosError)
+	}
+
 	function forceRefreshTrackers() {
 		fetchTrackers(() => {
 			addAlert({
@@ -109,11 +127,7 @@ function TrackerProvider({children}: {children: React.ReactNode}) {
 		}
 
 		const trackers = getLocalTrackers();
-		if (trackers !== null) {
-			return true;
-		}
-
-		return false;
+		return trackers != null;
 	}
 
 	function getLocalTrackers() {
@@ -126,11 +140,7 @@ function TrackerProvider({children}: {children: React.ReactNode}) {
 			return false;
 		}
 
-		if (locatTrackerTeamId !== selectedTeam?.id) {
-			return false;
-		}
-
-		return true;
+		return (locatTrackerTeamId === selectedTeam?.id);
 	}
 
 	function deleteTracker(trackerId: string) {
@@ -155,7 +165,7 @@ function TrackerProvider({children}: {children: React.ReactNode}) {
 
 	return (
 		<TrackerContext.Provider
-			value={{trackers, setTrackers, forceRefreshTrackers, deleteTracker, createTracker} as ITrackerCtx}>
+			value={{trackers, setTrackers, forceRefreshTrackers, deleteTracker, createTracker, updateTracker} as ITrackerCtx}>
 			{children}
 		</TrackerContext.Provider>
 	);

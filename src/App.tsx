@@ -21,7 +21,7 @@ function App() {
 							<AccessLogsProvider>
 								<PopupProvider>
 									<AppSidebar />
-									<main className=" w-full min-h-svh">
+									<main className="w-full min-h-svh">
 										<Navbar />
 										<div className="w-full max-w-5xl px-10 my-10 mx-auto mb-2">
 											<RouterProvider router={routes}></RouterProvider>

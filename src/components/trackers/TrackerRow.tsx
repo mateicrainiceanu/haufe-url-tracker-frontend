@@ -5,11 +5,15 @@ import {Link, Pencil, Trash} from "lucide-react";
 import {QpopupLevel, QpopupType, usePopup} from "@/providers/PopupProvider";
 import {useAlert} from "@/providers/AlertProvider";
 import {apiBase} from "@/lib/utils";
+import React, {useState} from "react";
+import TrackerEdit from "@/components/popups/TrackerEdit.tsx";
 
 function TrackerRow({tracker}: {tracker: ITracker}) {
 	const {deleteTracker} = useTracker();
 	const {openQpopup} = usePopup();
 	const {addAlert} = useAlert();
+
+	const [edit, setEdit] = useState(false);
 
 	function handleDelete(e: React.MouseEvent) {
 		e.stopPropagation();
@@ -41,7 +45,8 @@ function TrackerRow({tracker}: {tracker: ITracker}) {
 		});
 	}
 
-	return (
+	return (<>
+			{edit && <TrackerEdit trackerData={tracker} close={()=>{setEdit(false)}}/> }
 		<TableRow
 			onClick={() => {
 				window.open("/dash/trackers/" + tracker.id, "_blank");
@@ -52,7 +57,7 @@ function TrackerRow({tracker}: {tracker: ITracker}) {
 			<TableHead className="text-right">
 				<Button onClick={e => {
 					e.stopPropagation();
-					//TODO: open edit tracker popup
+					setEdit(true);
 				}} variant="outline">
 					<Pencil size={20} />
 				</Button>
@@ -64,6 +69,7 @@ function TrackerRow({tracker}: {tracker: ITracker}) {
 				</Button>
 			</TableHead>
 		</TableRow>
+	</>
 	);
 }
 
