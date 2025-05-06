@@ -47,7 +47,7 @@ function TrackerEdit({trackerData, close}: { trackerData: ITracker, close: () =>
 
                                 <Label htmlFor="description">Description</Label>
                                 <Input type="text" placeholder="Change Tracker Desc" id="description"
-                                       value={tData.description} onChange={handleChange}/>
+                                       value={tData.description || ""} onChange={handleChange}/>
                             </div>
                         </div>
                     </form>
