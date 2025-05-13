@@ -17,11 +17,13 @@ import {Button} from "./ui/button";
 export function AppSidebar() {
 	const {user} = useUser();
 
+	const path = window.location.pathname;
+
 	const navs = [
-		{title: "Home", dest: "/", show: user !== null, icon: Home},
-		{title: "Login", dest: "/auth", show: user === null, icon: LogIn},
-		{title: "Dash", dest: "/dash", show: user !== null, icon: LayoutDashboard},
-		{title: "Teams", dest: "/dash/teams", show: user !== null, icon: Users},
+		{title: "Home", dest: "/", show: user !== null, icon: Home, selected: path === "/"},
+		{title: "Login", dest: "/auth", show: user === null, icon: LogIn, selected: path === "/auth"},
+		{title: "Dash", dest: "/dash", show: user !== null, icon: LayoutDashboard, selected: path === "/dash"},
+		{title: "Teams", dest: "/dash/teams", show: user !== null, icon: Users, selected: path.includes("/dash/teams")},
 		// {title: "Dash", dest: "/dash", show: user !== null, icon: LayoutDashboard},
 	];
 
@@ -41,8 +43,8 @@ export function AppSidebar() {
 								{navs
 									.filter((item) => item.show)
 									.map((item) => (
-										<SidebarMenuItem key={item.title}>
-											<SidebarMenuButton asChild>
+										<SidebarMenuItem key={item.title} >
+											<SidebarMenuButton asChild className={`${item.selected ? "bg-gray-100 hover:bg-gray-200" : ""}`}>
 												<a href={item.dest}>
 													<item.icon className="text-sidebar-foreground" />
 													<span className="text-sidebar-foreground">{item.title}</span>
@@ -58,7 +60,7 @@ export function AppSidebar() {
 						<SidebarGroup>
 							<SidebarMenu>
 								<SidebarMenuItem>
-									<SidebarMenuButton asChild>
+									<SidebarMenuButton asChild className={`${path.includes("/dash/trackers") ? "bg-gray-100 hover:bg-gray-200" : ""}`}>
 										<a href={"/dash/trackers"}>
 											<LocateFixed className="text-sidebar-foreground" />
 											<span className="text-sidebar-foreground">Trackers</span>

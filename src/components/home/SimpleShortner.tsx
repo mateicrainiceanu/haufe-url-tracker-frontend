@@ -8,7 +8,7 @@ import {useAlert} from "@/providers/AlertProvider.tsx";
 enum UrlShortingState {
     INPUT,
     LOADING,
-    SHORTEND
+    SHORTENED
 }
 
 function SimpleShortner() {
@@ -35,7 +35,7 @@ function SimpleShortner() {
         api.post("/redirect", {url: urlData.url}).then(res => {
             const redirect = res.data.redirect.keyword;
             const newUrl = import.meta.env.VITE_API_BASE + "/" + redirect
-            setUrlData({state: UrlShortingState.SHORTEND, url: newUrl});
+            setUrlData({state: UrlShortingState.SHORTENED, url: newUrl});
             copyToClipboard(newUrl);
         }).catch((error) => {
             handleAxiosError(error);
@@ -50,7 +50,7 @@ function SimpleShortner() {
             case UrlShortingState.INPUT:
                 handleShorten();
                 return;
-            case UrlShortingState.SHORTEND:
+            case UrlShortingState.SHORTENED:
                 setUrlData({url: "", state: UrlShortingState.INPUT});
                 return;
         }
@@ -59,18 +59,17 @@ function SimpleShortner() {
 
     return (
         <div className={"flex flex-col w-full gap-4 items-center"}>
-            {/*<h2 className={"text-xl font-light"}>Shorten you own url</h2>*/}
             <div className={"flex gap-2 w-full"}>
                 <Input className="border-2 border-solid bg-gray-50 h-13" placeholder="Paste your url here"
                        value={urlData.url} onChange={handleUrlChange}
-                       disabled={urlData.state === UrlShortingState.LOADING || urlData.state === UrlShortingState.SHORTEND}/>
+                       disabled={urlData.state === UrlShortingState.LOADING || urlData.state === UrlShortingState.SHORTENED}/>
                 <Button onClick={()=>{
                     copyToClipboard(urlData.url);
-                }} variant={"outline"} className={`h-13 ${urlData.state !== UrlShortingState.SHORTEND ? "hidden" : ""}`}>Copy</Button>
+                }} variant={"outline"} className={`h-13 ${urlData.state !== UrlShortingState.SHORTENED ? "hidden" : ""}`}>Copy</Button>
             </div>
             <Button className={`h-13 text-white w-1/2 hover:w-3/4 ${urlData.state === UrlShortingState.INPUT ? "bg-blue-700 hover:bg-blue-600" : "bg-gray-600 hover:bg-gray-700"}`} onClick={handleClick}
                     disabled={urlData.state === UrlShortingState.LOADING}>{urlData.state === UrlShortingState.LOADING ?
-                <BeatLdr/> : urlData.state === UrlShortingState.SHORTEND ? "Another one" : "Shorten"}</Button>
+                <BeatLdr/> : urlData.state === UrlShortingState.SHORTENED ? "Another one" : "Shorten"}</Button>
         </div>
     );
 }
