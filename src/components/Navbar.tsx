@@ -20,14 +20,6 @@ function Navbar() {
 		{title: "Logout", dest: "/logout", show: user !== null},
 	];
 
-	window.onscroll = function () {
-		console.log("scroll");
-		if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-			document.querySelector("nav")?.classList.add("sm-shadow");
-		} else {
-			document.querySelector("nav")?.classList.remove("sm-shadow");
-		}
-	};
 	if (!open || user === null)
 		return (
 			<motion.div

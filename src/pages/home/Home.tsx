@@ -1,7 +1,8 @@
+import Hero from "@/components/home/Hero.tsx";
 
 function Home() {
   return (
-    <div>Home</div>
+    <div><Hero /></div>
   )
 }
 
