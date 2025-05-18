@@ -91,9 +91,11 @@ export function LoginForm({className, ...props}: React.ComponentProps<"div">) {
 								<Button type="submit" className="w-full">
 									{authMode == AuthMode.REGISTER ? "Sign up" : "Login"}
 								</Button>
-								{/* <Button variant="outline" className="w-full">
-									Login with Google
-								</Button> */}
+								<Button variant="outline" className="w-full" onClick={()=> {
+									window.location.href = import.meta.env.VITE_API_BASE + "/auth/google";
+								}}>
+									 Login with Google
+								</Button>
 							</div>
 						</div>
 						<div className="mt-4 text-center text-sm">

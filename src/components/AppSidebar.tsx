@@ -44,7 +44,7 @@ export function AppSidebar() {
 									.filter((item) => item.show)
 									.map((item) => (
 										<SidebarMenuItem key={item.title} >
-											<SidebarMenuButton asChild className={`${item.selected ? "bg-gray-100 hover:bg-gray-200" : ""}`}>
+											<SidebarMenuButton asChild className={`${item.selected ? "bg-gray-100 dark:bg-gray-600 hover:bg-gray-200 hover:dark:bg-gray-500" : ""}`}>
 												<a href={item.dest}>
 													<item.icon className="text-sidebar-foreground" />
 													<span className="text-sidebar-foreground">{item.title}</span>
@@ -60,7 +60,7 @@ export function AppSidebar() {
 						<SidebarGroup>
 							<SidebarMenu>
 								<SidebarMenuItem>
-									<SidebarMenuButton asChild className={`${path.includes("/dash/trackers") ? "bg-gray-100 hover:bg-gray-200" : ""}`}>
+									<SidebarMenuButton asChild className={`${path.includes("/dash/trackers") ? "bg-gray-100 dark:bg-gray-600 hover:bg-gray-200 hover:dark:bg-gray-500" : ""}`}>
 										<a href={"/dash/trackers"}>
 											<LocateFixed className="text-sidebar-foreground" />
 											<span className="text-sidebar-foreground">Trackers</span>
