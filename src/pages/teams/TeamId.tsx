@@ -6,6 +6,7 @@ import {AxiosError} from "axios";
 import {Pencil, Save} from "lucide-react";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router";
+import TeamKeySection from "@/components/teams/TeamKeySection.tsx";
 
 const qpopupActions = [
 	{
@@ -105,6 +106,7 @@ function TeamId() {
 			</div>
 			<p>Team ID: {team?.id}</p>
 			<p>Team owner: {team.owner.email}</p>
+			<TeamKeySection team={team}/>
 			<TeamPermissions team={team} />
 		</div>
 	);

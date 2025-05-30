@@ -15,6 +15,13 @@ export interface ITeam {
 	name: string;
 	users: Array<ITeamUsr>;
 	owner: ITeamUsr;
+	devKeys: DevKey[];
+}
+
+export interface DevKey {
+	id: string;
+	teamId: string;
+	createdAt: Date;
 }
 
 interface ITeamCtx {
@@ -63,8 +70,8 @@ function TeamProvider({children}: {children: React.ReactNode}) {
 
 	useEffect(initSelectedTeam, [teams]);
 
-	function fetchTeams() {
-		api.get("/teams")
+	async function fetchTeams() {
+		await api.get("/teams")
 			.then((res) => {
 				updateTeams(res.data.teams);
 			})
